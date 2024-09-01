@@ -6,7 +6,7 @@ let clicks = [];
         const resetButton = document.getElementById('resetButton');
         let keysPressed = new Set();
         let avgBPM = 0;
-        const MIN_INTERVAL = 50; // 最小时间间隔，单位为毫秒
+        const MIN_INTERVAL = 10; // 最小时间间隔，单位为毫秒
 
         function updateBPMList() {
             bpmList.innerHTML = '';
