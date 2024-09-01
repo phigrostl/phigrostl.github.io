@@ -22,6 +22,7 @@ let clicks = [];
         function recordBPM() {
             const now = new Date().getTime();
             if (clicks.length > 0 && (now - clicks[clicks.length - 1]) < MIN_INTERVAL) {
+                bpmDisplay.innerText=`太快了!`
                 return; // 如果上次点击距离当前点击时间间隔过短，则不记录 BPM
             }
             clicks.push(now);
