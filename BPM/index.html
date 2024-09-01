@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BPM测量器</title>
+    <style>
+        #bpmDisplay {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+        #bpmList {
+            list-style-type: none;
+            padding: 0;
+        }
+        #bpmList li {
+            margin-bottom: 5px;
+        }
+        .imgTitle {
+            display: flex;
+            justify-content: center;
+            height: 50;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="imgTitle">
+        <a href="../demo/demo.html">
+            <img src="../tlPicture.png" height="50" width="50">
+        </a>
+    </div>
+    <h1 style="text-align: center;">BPM 测量器</h1>
+    <div style="text-align: center;">
+        <button id="clickButton">点击我</button>
+        <button id="resetButton">重置</button>
+    </div>
+    <div id="bpmDisplay" style="text-align: center;">点击以测量 BPM</div>
+    <p style="text-align: center;">以下仅显示前10次的记录</p>
+    <ul id="bpmList" style="text-align: center;"></ul>
+    <script src="bpm.js"></script>
+</body>
+
+</html>
