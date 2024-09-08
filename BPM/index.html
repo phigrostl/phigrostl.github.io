@@ -26,9 +26,11 @@
 </head>
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <div class="imgTitle">
-        <a href="https://phigrostl.github.io">
-            <img src="https://phigrostl.github.io/tlPicture.png" height="50" width="50">
+        <a href="../">
+            <img src="../tlPicture.png" height="50" width="50">
         </a>
     </div>
     <h1 style="text-align: center;">BPM 测量器</h1>
@@ -36,9 +38,8 @@
         <button id="clickButton">点击我</button>
         <button id="resetButton">重置</button>
     </div>
-    <div id="bpmDisplay" style="text-align: center;">点击以测量 BPM</div>
-    <p style="text-align: center;">以下仅显示前10次的记录</p>
-    <ul id="bpmList" style="text-align: center;"></ul>
+    <div id="bpmDisplay" style="text-align: center;">点击或键盘敲击以测量 BPM</div>
+    <canvas id="bpmChart" width="2" height="1"></canvas>
     <script src="bpm.js"></script>
 </body>
 
