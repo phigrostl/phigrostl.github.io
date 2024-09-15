@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', () => {
     const clicks = [];
     const bpmRecords = [];
@@ -139,3 +140,4 @@ document.addEventListener('DOMContentLoaded', () => {
         bpmChart.update();
     });
 });
+
