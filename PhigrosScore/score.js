@@ -18,37 +18,26 @@ startButton.addEventListener('click', () => {
 
     // Create header row
     const headerRow = table.insertRow();
-    const header1 = document.createElement('th');
-    const header2 = document.createElement('th');
-    const header3 = document.createElement('th');
-    const header4 = document.createElement('th');
-    header1.innerHTML = '序号';
-    header2.innerHTML = 'P';
-    header3.innerHTML = 'G';
-    header4.innerHTML = '最大连击';
-    headerRow.appendChild(header1);
-    headerRow.appendChild(header2);
-    headerRow.appendChild(header3);
-    headerRow.appendChild(header4);
+    ['序号', 'P', 'G', '最大连击'].forEach(text => {
+        const header = document.createElement('th');
+        header.innerHTML = text;
+        headerRow.appendChild(header);
+    });
 
     // Populate table rows
     while (a >= 0) {
-        let b = 0;
-        while (a + b <= noteNumValue) {
-            let c = 0;
-            while (a + b >= c - 1) {
+        for (let b = 0; a + b <= noteNumValue; b++) {
+            for (let c = 0; a + b >= c - 1; c++) {
                 const calculatedScore = (900000.0 / noteNumValue * a) + (900000.0 / noteNumValue * 0.65 * b) + (c * 100000.0 / noteNumValue);
-                if (scoreValue - 0.5 <= calculatedScore && calculatedScore <= scoreValue + 0.5) {
+                if (Math.abs(scoreValue - calculatedScore) <= 0.5) {
                     m++;
                     const row = table.insertRow();
-                    row.insertCell().innerHTML = `${m}`;
-                    row.insertCell().innerHTML = `${a}`;
-                    row.insertCell().innerHTML = `${b}`;
-                    row.insertCell().innerHTML = `${c}`;
+                    [m, a, b, c].forEach(value => {
+                        const cell = row.insertCell();
+                        cell.innerHTML = value;
+                    });
                 }
-                c++;
             }
-            b++;
         }
         a--;
     }
