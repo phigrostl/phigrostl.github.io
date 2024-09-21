@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilibili Video Views</title>
+    <script>
+        function getVideoViews() {
+            const videoId = "BV121bFeVE5g";
+            const apiUrl = `https://api.bilibili.com/x/space/acc/info?mid=${videoId}`;
+
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const views = data.data.archive.view;
+                    document.getElementById("video-views").innerText = `播放量: ${views}`;
+                })
+                .catch(error => {
+                    console.error("Error fetching video views:", error);
+                });
+        }
+
+        window.onload = getVideoViews;
+    </script>
+</head>
+<body>
+    <h1 id="video-views"></h1>
+</body>
+</html>
