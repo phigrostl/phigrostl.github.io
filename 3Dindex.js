@@ -1,4 +1,4 @@
-import * as THREE from './three.js-master/src/three.js';
+import * as THREE from './three.js-master/src/Three.js';
 const width = window.innerWidth, height = window.innerHeight;
 const camera = new THREE.PerspectiveCamera(70, width / height, 0.01, 1000);
 camera.position.z = 1;
