@@ -1,30 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bilibili Video Views</title>
-    <script>
-        function getVideoViews() {
-            const videoId = "BV121bFeVE5g";
-            const apiUrl = `https://api.bilibili.com/x/space/acc/info?mid=${videoId}`;
-
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
-                    const views = data.data.archive.view;
-                    document.getElementById("video-views").innerText = `播放量: ${views}`;
-                })
-                .catch(error => {
-                    console.error("Error fetching video views:", error);
-                });
+    <title>可拖动图片</title>
+    <style>
+        #container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            background-color: #f0f0f0; /* 方便观察 */
         }
 
-        window.onload = getVideoViews;
-    </script>
+        #card {
+            cursor: grab;
+            position: absolute;
+        }
+    </style>
 </head>
+
 <body>
-    <h1 id="video-views"></h1>
+    <div id="container">
+        <img id="card" src="./tlPicture.png" alt="Draggable Card">
+    </div>
+
+    <script>
+        const card = document.getElementById('card');
+        let offsetX, offsetY;
+        let isDragging = false;
+
+        function clientToScreen(x, y) {
+            const screenX = x + window.screenX + window.outerWidth - window.innerWidth;
+            const screenY = y + window.screenY + window.outerHeight - window.innerHeight;
+            return [screenX, screenY];
+        }
+        function screenToClient(x, y) {
+            const clientX = x - window.screenX - window.outerWidth + window.innerWidth;
+            const clientY = y - window.screenY - window.outerHeight + window.innerHeight;
+            return [clientX, clientY];
+        }
+
+        const channel = new BroadcastChannel('card');
+
+        // 处理接收到的消息
+        channel.onmessage = (e) => {
+            const clientPoints =screenToClient(e.data[0], e.data[1]);
+            card.style.left = `${clientPoints[0]}px`;
+            card.style.top = `${clientPoints[1]}px`;
+        }
+
+        card.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - card.getBoundingClientRect().left;
+            offsetY = e.clientY - card.getBoundingClientRect().top;
+            card.style.cursor = 'grabbing';
+        });
+
+        // 鼠标移动事件
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                const x = e.clientX - offsetX;
+                const y = e.clientY - offsetY;
+                card.style.left = `${x}px`;
+                card.style.top = `${y}px`;
+
+                // 将当前位置转换为屏幕坐标并发送
+                const screenPoints = clientToScreen(x, y);
+                
+                channel.postMessage(screenPoints);
+            }
+        });
+
+        // 鼠标释放事件
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            card.style.cursor = 'grab';
+        });
+    </script>
 </body>
+
 </html>

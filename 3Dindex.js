@@ -1,11 +1,19 @@
 import * as THREE from './three.js-master/src/Three.js';
 const width = window.innerWidth, height = window.innerHeight;
 const camera = new THREE.PerspectiveCamera(70, width / height, 0.01, 1000);
+const goalcamera = new THREE.PerspectiveCamera(70, width / height, 0.01, 1000);
 camera.position.z = 1;
 // 创建场景
 const scene = new THREE.Scene();
 // 创建网格对象，参数分别为几何体和材质
-const Player = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), new THREE.MeshNormalMaterial());
+
+//加载高度贴图与纹理
+const playerTexture = new THREE.TextureLoader().load('./3D/texture/PlayerTexture.jpg');
+
+
+const Player = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), new THREE.MeshBasicMaterial({ 
+    map: playerTexture ,
+}));
 const Floor = new THREE.Mesh(new THREE.BoxGeometry(1000, 0.01, 1000, 50, 1, 50), new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true }));
 const BiliBox = new THREE.Mesh(new THREE.BoxGeometry(5, 5, 5), new THREE.MeshMatcapMaterial({ color: 0xffffff }));
 // 将网格对象添加到场景中
@@ -38,38 +46,74 @@ document.addEventListener('mousemove', function (event) {
     mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
 })
 
-window.addEventListener('mousemove', function (event) {
-    // 可以使用 event.clientX 和 event.clientY 来控制视角
-    // 例如，调整相机的旋转
-    const deltaX = event.movementX * 0.1; // 调整灵敏度
-    const deltaY = event.movementY * 0.1;
-
-    // 更新相机的旋转
-    camera.rotation.y -= deltaX * 0.01;
-    camera.rotation.x -= deltaY * 0.01;
-});
 
 function animate() {
-    if(keyboard['w'] && zspeed<0.2){
-        zspeed += 0.1;
+    // 根据按键更新移动向量
+    let forward = new THREE.Vector3();
+    camera.getWorldDirection(forward);
+    forward.y = 0; // 保持在水平面上
+    forward.normalize();
+
+    let right = new THREE.Vector3();
+    right.crossVectors(forward, new THREE.Vector3(0, 1, 0)).normalize();
+    let speed = 0.05;
+    // 更新移动向量
+    if (keyboard['w']) {
+        zspeed += speed; // 前进
     }
-    if(keyboard['s'] && zspeed>-0.2){   
-        zspeed -= 0.1;
+    if (keyboard['s']) {
+        zspeed -= speed; // 后退
     }
-    if(keyboard['a'] && xspeed>-0.2){
-        xspeed += 0.1;
+    if (keyboard['a']) {
+        xspeed -= speed; // 左移
     }
-    if(keyboard['d'] && xspeed<0.2){
-        xspeed -= 0.1;
+    if (keyboard['d']) {
+        xspeed += speed; // 右移
     }
-    Player.position.z += zspeed;
-    Player.position.x += xspeed;
+
+    // 根据相机方向更新位置
+    Player.position.z += zspeed * forward.z + xspeed * right.z;
+    Player.position.x += zspeed * forward.x + xspeed * right.x;
+    Player.rotation.z += xspeed;
+    Player.rotation.x += zspeed;
     zspeed *= 0.9;
     xspeed *= 0.9;
-    camera.position.copy(Player.position).add(cameraOffset);
+    let mousex = mouseX;
+    let mousey = mouseY;
+    goalcamera.position.y = Math.sin(mousex * Math.PI / 4) * 10 + Player.position.y;
+    goalcamera.position.x = -yvar(mousey) * Math.sin(mousex * Math.PI) * 10 + Player.position.x;
+    goalcamera.position.z = yvar(mousey) * Math.cos(mousex * Math.PI) * 10 + Player.position.z;
+    var dx = goalcamera.position.x - Player.position.x;
+    var dy = goalcamera.position.y - Player.position.y;
+    var dz = goalcamera.position.z - Player.position.z;
+
+    var distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+    if (distance !== 10) {
+        var factor = 10 / distance;
+        goalcamera.position.x = Player.position.x + dx * factor;
+        goalcamera.position.y = Player.position.y + dy * factor;
+        goalcamera.position.z = Player.position.z + dz * factor;
+    }
+
     camera.lookAt(Player.position);
+    easing();
     renderer.render(scene, camera);
 }
+
+function yvar(x) {
+    return Math.cos(0.5 * x * Math.PI);
+}
+
+function easing() {
+    camera.position.x += (goalcamera.position.x - camera.position.x) * 0.1;
+    camera.position.y += (goalcamera.position.y - camera.position.y) * 0.1;
+    camera.position.z += (goalcamera.position.z - camera.position.z) * 0.1;
+    // camera.rotation.x += (goalcamera.rotation.x - camera.rotation.x) * 0.1;
+    // camera.rotation.y += (goalcamera.rotation.y - camera.rotation.y) * 0.1;
+    // camera.rotation.z += (goalcamera.rotation.z - camera.rotation.z) * 0.1;
+}
+
 let keyboard = {
     w: false,
     s: false,
@@ -85,22 +129,9 @@ window.addEventListener('keyup', function (event) {
     keyboard[event.key] = false;
 })
 
-//监听窗口大小变化，更新渲染器大小和相机比例，防抖
+//监听窗口大小变化
 window.addEventListener('resize', function () {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    camera.aspect = width / height;
+    camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(width, height);
+    renderer.setSize(window.innerWidth, window.innerHeight);
 })
-let resizeTimeout;
-window.addEventListener('resize', function () {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(function () {
-        width = window.innerWidth;
-        height = window.innerHeight;
-        camera.aspect = width / height;
-        camera.updateProjectionMatrix();
-        renderer.setSize(width, height);
-    }, 1000);
-});
