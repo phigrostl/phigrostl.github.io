@@ -7,12 +7,9 @@ camera.position.z = 1;
 const scene = new THREE.Scene();
 // 创建网格对象，参数分别为几何体和材质
 
-//加载高度贴图与纹理
-const playerTexture = new THREE.TextureLoader().load('./3D/texture/PlayerTexture.jpg');
 
-
-const Player = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), new THREE.MeshBasicMaterial({ 
-    map: playerTexture ,
+const Player = new THREE.Mesh(new THREE.SphereGeometry(0.5, 32, 32), new THREE.MeshBasicMaterial({
+    map: new THREE.TextureLoader().load('./3D/texture/PlayerTexture.jpg'),
 }));
 const Floor = new THREE.Mesh(new THREE.BoxGeometry(1000, 0.01, 1000, 50, 1, 50), new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true }));
 const BiliBox = new THREE.Mesh(new THREE.BoxGeometry(5, 5, 5), new THREE.MeshMatcapMaterial({ color: 0xffffff }));
@@ -36,9 +33,15 @@ renderer.setSize(width, height);
 renderer.setAnimationLoop(animate);
 // 将渲染器的DOM元素添加到页面中
 document.body.appendChild(renderer.domElement);
-// 设置相机位置
-const cameraOffset = new THREE.Vector3(0, 2, -5); // 相机相对玩家的位置
 
+
+const moon = new THREE.Mesh(new THREE.SphereGeometry(0.15, 32, 32), new THREE.MeshBasicMaterial({
+    map: new THREE.TextureLoader().load('./3D/texture/MoonTexture.png'),
+}));
+
+moon.position.set(0, 0.5, 1);
+
+scene.add(moon);
 //获取鼠标xy
 let mouseX = 0, mouseY = 0;
 document.addEventListener('mousemove', function (event) {
@@ -46,6 +49,7 @@ document.addEventListener('mousemove', function (event) {
     mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
 })
 
+let moonArg = 0;
 
 function animate() {
     // 根据按键更新移动向量
@@ -80,38 +84,26 @@ function animate() {
     xspeed *= 0.9;
     let mousex = mouseX;
     let mousey = mouseY;
-    goalcamera.position.y = Math.sin(mousex * Math.PI / 4) * 10 + Player.position.y;
-    goalcamera.position.x = -yvar(mousey) * Math.sin(mousex * Math.PI) * 10 + Player.position.x;
-    goalcamera.position.z = yvar(mousey) * Math.cos(mousex * Math.PI) * 10 + Player.position.z;
-    var dx = goalcamera.position.x - Player.position.x;
-    var dy = goalcamera.position.y - Player.position.y;
-    var dz = goalcamera.position.z - Player.position.z;
-
-    var distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
-
-    if (distance !== 10) {
-        var factor = 10 / distance;
-        goalcamera.position.x = Player.position.x + dx * factor;
-        goalcamera.position.y = Player.position.y + dy * factor;
-        goalcamera.position.z = Player.position.z + dz * factor;
-    }
-
+    goalcamera.position.y = Math.sin((1 - mousey) * Math.PI + Math.PI / 2) * 10 + Player.position.y;
+    goalcamera.position.x = Math.cos((1 - mousey) * Math.PI + Math.PI / 2) * Math.sin(2 * (1 - mousex) * Math.PI) * 10 + Player.position.x;
+    goalcamera.position.z = Math.cos((1 - mousey) * Math.PI + Math.PI / 2) * Math.cos(2 * (1 - mousex) * Math.PI) * 10 + Player.position.z;
     camera.lookAt(Player.position);
     easing();
+    moonArg = moonArg + Math.PI / 120;
+    moon.position.set(Math.cos(moonArg)+Player.position.x, 0.5, Math.sin(moonArg)+Player.position.z);
     renderer.render(scene, camera);
 }
 
-function yvar(x) {
-    return Math.cos(0.5 * x * Math.PI);
-}
 
 function easing() {
     camera.position.x += (goalcamera.position.x - camera.position.x) * 0.1;
     camera.position.y += (goalcamera.position.y - camera.position.y) * 0.1;
     camera.position.z += (goalcamera.position.z - camera.position.z) * 0.1;
-    // camera.rotation.x += (goalcamera.rotation.x - camera.rotation.x) * 0.1;
-    // camera.rotation.y += (goalcamera.rotation.y - camera.rotation.y) * 0.1;
-    // camera.rotation.z += (goalcamera.rotation.z - camera.rotation.z) * 0.1;
+    if (Math.abs(camera.position.x - goalcamera.position.x) < 0.01 && Math.abs(camera.position.y - goalcamera.position.y) < 0.01 && Math.abs(camera.position.z - goalcamera.position.z) < 0.01) {
+        camera.position.x = goalcamera.position.x;
+        camera.position.y = goalcamera.position.y;
+        camera.position.z = goalcamera.position.z;
+    }
 }
 
 let keyboard = {
