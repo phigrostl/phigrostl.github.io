@@ -78,8 +78,8 @@ function animate() {
     // 根据相机方向更新位置
     Player.position.z += zspeed * forward.z + xspeed * right.z;
     Player.position.x += zspeed * forward.x + xspeed * right.x;
-    Player.rotation.z += xspeed;
-    Player.rotation.x += zspeed;
+    Player.rotation.z += xspeed + zspeed;
+    Player.rotation.x += 2*zspeed;
     zspeed *= 0.9;
     xspeed *= 0.9;
     let mousex = mouseX;
@@ -90,7 +90,7 @@ function animate() {
     camera.lookAt(Player.position);
     easing();
     moonArg = moonArg + Math.PI / 120;
-    moon.position.set(Math.cos(moonArg)+Player.position.x, 0.5, Math.sin(moonArg)+Player.position.z);
+    moon.position.set(Math.cos(moonArg) + Player.position.x, 0.5, Math.sin(moonArg) + Player.position.z);
     renderer.render(scene, camera);
 }
 
