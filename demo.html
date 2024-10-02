@@ -3,35 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>访问计数器示例</title>
+    <title>注册和登录</title>
 </head>
 <body>
-    <h1>欢迎来到我的网站</h1>
-    <div id="visit-count"></div>
-    <div id="content"></div>
+    <h1>注册</h1>
+    <form id="registerForm">
+        <label for="registerUsername">用户名:</label>
+        <input type="text" id="registerUsername" required>
+        <br>
+        <label for="registerPassword">密码:</label>
+        <input type="password" id="registerPassword" required>
+        <br>
+        <button type="submit">注册</button>
+    </form>
+
+    <h1>登录</h1>
+    <form id="loginForm">
+        <label for="loginUsername">用户名:</label>
+        <input type="text" id="loginUsername" required>
+        <br>
+        <label for="loginPassword">密码:</label>
+        <input type="password" id="loginPassword" required>
+        <br>
+        <button type="submit">登录</button>
+    </form>
+
     <script>
-    document.addEventListener("DOMContentLoaded", () => {
-    const visitCountDiv = document.getElementById('visit-count');
-    const contentDiv = document.getElementById('content');
+        // 注册功能
+document.getElementById('registerForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // 阻止表单提交
 
-    // 获取当前访问次数
-    let visitCount = localStorage.getItem('visitCount');
+    const username = document.getElementById('registerUsername').value;
+    const password = document.getElementById('registerPassword').value;
 
-    // 如果没有访问记录，初始化为 0
-    if (!visitCount) {
-        visitCount = 0;
+    // 检查用户是否已经存在
+    if (localStorage.getItem(username)) {
+        alert('用户名已存在，请选择其他用户名。');
+    } else {
+        // 存储用户信息
+        localStorage.setItem(username, password);
+        alert('注册成功！');
+        document.getElementById('registerForm').reset(); // 重置表单
+    }
+});
+
+// 登录功能
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // 阻止表单提交
+
+    const username = document.getElementById('loginUsername').value;
+    const password = document.getElementById('loginPassword').value;
+
+    // 验证用户名和密码
+    const storedPassword = localStorage.getItem(username);
+    if (storedPassword && storedPassword === password) {
+        alert('登录成功！');
+    } else {
+        alert('用户名或密码错误。');
     }
 
-    // 增加访问次数
-    visitCount++;
-    
-    // 更新 localStorage
-    localStorage.setItem('visitCount', visitCount);
-
-    // 显示访问次数
-    visitCountDiv.innerHTML = `此网站已被打开过 ${visitCount} 次`;
-
+    document.getElementById('loginForm').reset(); // 重置表单
 });
+
     </script>
 </body>
 </html>
