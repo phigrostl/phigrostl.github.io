@@ -2,6 +2,24 @@ import * as THREE from './three.js-master/src/Three.js';
 const width = window.innerWidth, height = window.innerHeight;
 const camera = new THREE.PerspectiveCamera(70, width / height, 0.01, 1000);
 const goalcamera = new THREE.PerspectiveCamera(70, width / height, 0.01, 1000);
+const forwardB=document.getElementById('前进');
+const backB=document.getElementById('后退');
+const leftB=document.getElementById('左移');
+const rightB=document.getElementById('右移');
+
+forwardB.addEventListener('mousedown',function(){
+    zspeed+=0.5;
+})
+backB.addEventListener('mousedown',function(){
+    zspeed-=0.5;
+})
+leftB.addEventListener('mousedown',function(){
+    xspeed-=0.5;
+})
+rightB.addEventListener('mousedown',function(){
+    xspeed+=0.5;
+})
+
 camera.position.z = 1;
 // 创建场景
 const scene = new THREE.Scene();

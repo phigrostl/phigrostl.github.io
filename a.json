@@ -1,0 +1,91 @@
+{
+    "appVersion": "0.20.0",
+    "talk": {
+        "audioKeys": [
+            "7b6eeccf-0813-4b16-903a-96452ab331d5"
+        ],
+        "audioItems": {
+            "7b6eeccf-0813-4b16-903a-96452ab331d5": {
+                "text": "",
+                "voice": {
+                    "engineId": "074fc39e-678b-4c13-8916-ffca8d505d1d",
+                    "speakerId": "7ffcb7ce-00ec-4bdc-82cd-45a8889e43ff",
+                    "styleId": 2
+                },
+                "query": {
+                    "accentPhrases": [],
+                    "speedScale": 1,
+                    "pitchScale": 0,
+                    "intonationScale": 1,
+                    "volumeScale": 1,
+                    "prePhonemeLength": 0.1,
+                    "postPhonemeLength": 0.1,
+                    "outputSamplingRate": 24000,
+                    "outputStereo": false,
+                    "kana": ""
+                },
+                "presetKey": "164a0faf-3b13-4d84-bb97-457626e59e60"
+            }
+        }
+    },
+    "song": {
+        "tpqn": 480,
+        "tempos": [
+            {
+                "position": 0,
+                "bpm": 170
+            }
+        ],
+        "timeSignatures": [
+            {
+                "measureNumber": 1,
+                "beats": 4,
+                "beatType": 4
+            }
+        ],
+        "tracks": {
+            "c33284d0-296e-4d3b-93e3-2dd84ce4fbd4": {
+                "name": "無名トラック",
+                "singer": {
+                    "engineId": "074fc39e-678b-4c13-8916-ffca8d505d1d",
+                    "styleId": 3008
+                },
+                "keyRangeAdjustment": -1,
+                "volumeRangeAdjustment": 0,
+                "notes": [
+                    {
+                        "id": "b96c19b2-b707-4853-95f4-d5b336f9554b",
+                        "position": 1440,
+                        "duration": 480,
+                        "noteNumber": 66,
+                        "lyric": "こ"
+                    },
+                    {
+                        "id": "1d93f947-5948-48ee-9a4e-cfa190269371",
+                        "position": 1920,
+                        "duration": 480,
+                        "noteNumber": 57,
+                        "lyric": "の"
+                    },
+                    {
+                        "id": "06bc26db-573c-449f-831f-847d77b77f94",
+                        "position": 2400,
+                        "duration": 240,
+                        "noteNumber": 64,
+                        "lyric": "よ"
+                    },
+                    {
+                        "id": "c6fd3b0f-0ff4-4c6d-a979-a252b645287c",
+                        "position": 2640,
+                        "duration": 240,
+                        "noteNumber": 60,
+                        "lyric": "で"
+                    }
+                ]
+            }
+        },
+        "trackOrder": [
+            "c33284d0-296e-4d3b-93e3-2dd84ce4fbd4"
+        ]
+    }
+}

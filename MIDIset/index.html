@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIDI 文件生成器</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tonejs/midi"></script>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <h1>MIDI 文件生成器</h1>
+    
+    <label for="bpm">设置 BPM:</label>
+    <input type="number" id="bpm" value="120" min="30" max="300">
+    <br>
+    <button id="generate">生成 MIDI 文件</button>
+    <br>
+    <a id="download" style="display:none;">下载 MIDI 文件</a>
+
+    <script>
+        document.getElementById('generate').addEventListener('click', () => {
+            const bpm = parseInt(document.getElementById('bpm').value);
+            if (isNaN(bpm) || bpm < 30 || bpm > 300) return;
+
+            const midi = new Midi();
+            midi.header.setTempo(bpm);
+            const track = midi.addTrack();
+            track.addNote({ midi: 60, time: 0, duration: 1 }); // C4
+
+            const midiFile = midi.toArray();
+            const blob = new Blob([new Uint8Array(midiFile)], { type: 'audio/midi' });
+            const url = URL.createObjectURL(blob);
+
+            const downloadLink = document.getElementById('download');
+            downloadLink.href = url;
+            downloadLink.download = 'output.mid';
+            downloadLink.style.display = 'block';
+            downloadLink.textContent = '下载 MIDI 文件';
+        });
+    </script>
+</body>
+</html>
