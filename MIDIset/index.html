@@ -3,20 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MIDI 文件生成器</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tonejs/midi"></script>
-    <style>
-        body {
-            text-align: center;
-            font-family: Arial, sans-serif;
-        }
-    </style>
+    <title>MIDI Generator</title>
+    <script src="./midi.js"></script>
 </head>
 <body>
     <h1>MIDI 文件生成器</h1>
-    
     <label for="bpm">设置 BPM:</label>
     <input type="number" id="bpm" value="120" min="30" max="300">
+    <br>
+    <label for="beats">设置拍数:</label>
+    <input type="number" id="beats" value="4" min="1" max="16">
     <br>
     <button id="generate">生成 MIDI 文件</button>
     <br>
@@ -25,17 +21,25 @@
     <script>
         document.getElementById('generate').addEventListener('click', () => {
             const bpm = parseInt(document.getElementById('bpm').value);
-            if (isNaN(bpm) || bpm < 30 || bpm > 300) return;
+            const beats = parseInt(document.getElementById('beats').value);
 
+            // 创建 MIDI 文件
             const midi = new Midi();
             midi.header.setTempo(bpm);
-            const track = midi.addTrack();
-            track.addNote({ midi: 60, time: 0, duration: 1 }); // C4
 
+            // 添加一条音轨
+            const track = midi.addTrack();
+            for (let i = 0; i < beats; i++) {
+                // 添加空音符，持续时间为四分之一音符
+                track.addNote({ midi: 60, time: i * 1, duration: 1 }); // C4
+            }
+
+            // 导出 MIDI 文件
             const midiFile = midi.toArray();
             const blob = new Blob([new Uint8Array(midiFile)], { type: 'audio/midi' });
             const url = URL.createObjectURL(blob);
 
+            // 更新下载链接
             const downloadLink = document.getElementById('download');
             downloadLink.href = url;
             downloadLink.download = 'output.mid';

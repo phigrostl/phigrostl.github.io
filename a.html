@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase Example</title>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+</head>
+<body>
+    <h1>存储示例</h1>
+    <input type="text" id="inputValue" placeholder="输入值">
+    <button id="saveButton">保存</button>
+    <p id="output"></p>
+
+    <script>
+        // TODO: 替换为你的 Firebase 配置信息
+        const firebaseConfig = {
+            apiKey: "phigrosTL",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // 初始化 Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        document.getElementById('saveButton').onclick = function() {
+            const value = document.getElementById('inputValue').value;
+            db.collection('data').doc('myData').set({ value: value })
+                .then(() => {
+                    console.log("数据已保存");
+                })
+                .catch((error) => {
+                    console.error("错误:", error);
+                });
+        };
+
+        // 加载数据
+        db.collection('data').doc('myData').get().then((doc) => {
+            if (doc.exists) {
+                document.getElementById('output').innerText = doc.data().value || '没有存储的值';
+            } else {
+                document.getElementById('output').innerText = '没有存储的值';
+            }
+        });
+    </script>
+</body>
+</html>
