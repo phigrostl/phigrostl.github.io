@@ -9,15 +9,14 @@ const initialTitleSize = 2.5;
 const minAvatarSize = 50;
 const minTitleSize = 0;
 
-const maxScrollDistance = 100;
-
+const maxScrollDistance = Math.min(document.body.scrollHeight, 100);
 
 let lastScrollTime = Date.now();
 let lastScrollY = window.scrollY;
 let scrollTimer = null;
 
 const headerHeight = header.offsetHeight;
-main.style.paddingTop = `${headerHeight + (window.scrollY < 100 ? window.scrollY : headerHeight)}px`;
+main.style.paddingTop = `${headerHeight + (window.scrollY < maxScrollDistance ? window.scrollY : headerHeight)}px`;
 
 window.addEventListener('scroll', function () {
     const scrollPosition = window.scrollY;
@@ -33,14 +32,29 @@ window.addEventListener('scroll', function () {
     lastScrollTime = Date.now();
     lastScrollY = scrollPosition;
     const headerHeight = header.offsetHeight;
-    main.style.paddingTop = `${headerHeight + (window.scrollY < 100 ? window.scrollY : headerHeight)}px`;
+    main.style.paddingTop = `${headerHeight + (window.scrollY < maxScrollDistance ? window.scrollY : headerHeight)}px`;
 });
 
 const interval = setInterval(() => {
-
     if (main) {
-
         const footerHeight = footer.offsetHeight;
         main.style.paddingBottom = `${footerHeight}px`;
     }
 });
+
+avatar.addEventListener('click', function () {
+    const scrollPosition = window.scrollY;
+    if (scrollPosition > 0){
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+    else {
+        pathname = window.location.pathname;
+        console.log(pathname);
+        if (pathname === '/' || pathname === '/index.html'){
+            window.open("./About/About.html");
+        }
+        else {
+            window.open("./index.html");
+        }
+    }
+})
