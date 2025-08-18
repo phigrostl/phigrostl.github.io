@@ -22,7 +22,7 @@
 }
 
 .title {
-    font-size: 50px;
+    font-size: 2.5em;
     margin-bottom: 0px;
     font-weight: 600;
     color: #fff
@@ -42,12 +42,6 @@
 
 .avatar:hover {
     transform: scale(1.25) rotate(0);
-}
-
-main {
-    margin-top: 140px;
-    padding: 0px;
-    margin-bottom: 20px;
 }
 
 /*圆角矩形框*/

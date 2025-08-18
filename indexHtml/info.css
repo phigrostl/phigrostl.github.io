@@ -60,18 +60,3 @@
     font-size: 0.9rem;
     color: #7f8c8d;
 }
-
-@media screen and (max-width: 768px) {
-    .avatar {
-        width: 13vw;
-        height: 13vw;
-    }
-
-    .title {
-        font-size: 5.2vw;
-    }
-
-    .social-cards {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
-}
