@@ -1,58 +1,86 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const header = document.getElementById('main-header');
-    const avatar = document.querySelector('.avatar');
-    const title = document.querySelector('.title');
-    
-    // 检查元素是否存在
-    if (!header || !avatar || !title) {
-        console.error('Required elements not found!');
-        return;
+const header = document.getElementById('main-header');
+const footer = document.getElementById('main-footer');
+const avatar = document.querySelector('.avatar');
+const title = document.querySelector('.title');
+const initialAvatarSize = 100;
+const initialTitleSize = 2.5;
+
+const minAvatarSize = 50;
+const minTitleSize = 0;
+
+const maxScrollDistance = 100;
+
+
+let lastScrollTime = Date.now();
+let lastScrollY = window.scrollY;
+let scrollTimer = null;
+let isAutoScrolling = false;
+
+function smoothScrollTo(targetY, duration = 500) {
+    if (isAutoScrolling) return;
+    isAutoScrolling = true;
+    const startY = window.scrollY;
+    const changeY = targetY - startY;
+    const startTime = performance.now();
+    function easeInOutQuad(t) {
+        return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
     }
-    
-    // 获取初始尺寸
-    const initialHeaderPadding = 20;
-    const initialAvatarSize = 120;
-    const initialTitleSize = 2; // rem
-    const initialAvatarMargin = 15; // px
-    
-    // 设置最小尺寸
-    const minHeaderPadding = 10;
-    const minAvatarSize = 60;
-    const minTitleSize = 0; // rem
-    const minAvatarMargin = 5; // px
-    
-    // 设置最大滚动距离（超过这个距离后不再继续缩小）
-    const maxScrollDistance = 100;
-    
-    // 监听滚动事件
-    window.addEventListener('scroll', function() {
-        // 获取当前滚动位置
-        const scrollPosition = window.scrollY;
-        
-        // 计算缩放比例（0到1之间）
-        const scrollRatio = Math.min(scrollPosition / maxScrollDistance, 1);
-        
-        // 计算当前尺寸
-        const currentHeaderPadding = initialHeaderPadding - (initialHeaderPadding - minHeaderPadding) * scrollRatio;
-        const currentAvatarSize = initialAvatarSize - (initialAvatarSize - minAvatarSize) * scrollRatio;
-        const currentTitleSize = Math.max(initialTitleSize - (initialTitleSize - minTitleSize) * scrollRatio * 3, 0);
-        const currentAvatarMargin = initialAvatarMargin - (initialAvatarMargin - minAvatarMargin) * scrollRatio;
-        
-        // 直接应用样式
-        header.style.padding = `${currentHeaderPadding}px`;
-        avatar.style.width = `${currentAvatarSize}px`;
-        avatar.style.height = `${currentAvatarSize}px`;
-        title.style.fontSize = `${currentTitleSize}rem`;
-        avatar.style.marginBottom = `${currentAvatarMargin}px`;
-        
-        // 更新main的上边距，以适应头部大小的变化
-        const main = document.querySelector('main');
-        if (main) {
-            const headerHeight = header.offsetHeight;
-            main.style.marginTop = `${headerHeight + 20}px`; // 20px是额外的间距
+    function animate(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = easeInOutQuad(progress);
+        window.scrollTo(0, startY + changeY * eased);
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            isAutoScrolling = false;
         }
-    });
-    
-    // 初始化一次，确保初始状态正确
-    window.dispatchEvent(new Event('scroll'));
+    }
+    requestAnimationFrame(animate);
+}
+
+window.addEventListener('scroll', function () {
+    const scrollPosition = window.scrollY;
+    // 计算滚动比例（0到1之间）
+    const scrollRatio = Math.min(scrollPosition / maxScrollDistance, 1);
+
+    // 计算当前值
+    const currentAvatarSize = initialAvatarSize - (initialAvatarSize - minAvatarSize) * scrollRatio;
+    const currentTitleSize = Math.max(initialTitleSize - (initialTitleSize - minTitleSize) * scrollRatio * 3, 0);
+
+    avatar.style.width = `${currentAvatarSize}px`;
+    avatar.style.height = `${currentAvatarSize}px`;
+
+    title.style.fontSize = `${currentTitleSize}rem`;
+
+    const width = window.innerWidth;
+    const avatarLeft = (-scrollRatio) * (width - 120);
+    avatar.style.marginLeft = `${avatarLeft}px`;
+
+    lastScrollTime = Date.now();
+    lastScrollY = scrollPosition;
+    if (scrollTimer) clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+        // 判断是否静止
+        if (Math.abs(window.scrollY - lastScrollY) <= 2 && !isAutoScrolling) {
+            const headerHeight = header.offsetHeight;
+            if (window.scrollY <= headerHeight / 2) {
+                smoothScrollTo(0, 500);
+            }
+            else if (window.scrollY < headerHeight) {
+                smoothScrollTo(headerHeight, 500);
+            }
+            // 超过 headerHeight 不自动滚动
+        }
+    }, 500);
+});
+
+const interval = setInterval(() => {
+    const main = document.querySelector('main');
+    if (main) {
+        const headerHeight = header.offsetHeight;
+        main.style.marginTop = `${headerHeight + 20}px`;
+        const footerHeight = footer.offsetHeight;
+        main.style.marginBottom = `${footerHeight + 20}px`;
+    }
 });
