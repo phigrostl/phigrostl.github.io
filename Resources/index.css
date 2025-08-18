@@ -83,6 +83,10 @@ nav ul {
     display: flex;
 }
 
+content {
+    text-align: center;
+}
+
 footer {
     background-color: #26629e;
     color: white;
