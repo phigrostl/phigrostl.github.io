@@ -61,9 +61,10 @@ h2 {
     transform: scale(1.2) rotate(5deg);
 }
 
-main{
-    margin-top: 200px;
-    padding: 20px;
+main {
+    margin-top: 140px;
+    padding: 0px;
+    padding-bottom: 70px;
 }
 
 .content {
@@ -72,9 +73,10 @@ main{
     padding: 20px;
 }
 
-.content p {
-    margin-bottom: 20px;
-    font-size: 1.1rem;
+.content h1 {
+    margin-bottom: 50px;
+    font-size: 2rem;
+    text-align: center;
 }
 
 nav ul {
@@ -96,6 +98,7 @@ footer {
         width: 13vw;
         height: 13vw;
     }
+
     .title {
         font-size: 5.2vw
     }
