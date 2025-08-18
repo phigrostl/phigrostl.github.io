@@ -14,18 +14,31 @@ const maxScrollDistance = 100;
 let lastScrollTime = Date.now();
 let lastScrollY = window.scrollY;
 let scrollTimer = null;
-let isAutoScrolling = false;
 
 function smoothScrollTo(targetY, duration = 500) {
-    if (isAutoScrolling) return;
-    isAutoScrolling = true;
     const startY = window.scrollY;
     const changeY = targetY - startY;
     const startTime = performance.now();
+    let lastUserScrollY = startY;
+    let userInterrupted = false;
+    // 监听用户手动滚动
+    function onUserScroll() {
+        // 如果用户滚动距离与动画期望不一致，则中断
+        const currentY = window.scrollY;
+        if (Math.abs(currentY - lastUserScrollY) > 2 && Math.abs(currentY - (startY + changeY)) > 2) {
+            userInterrupted = true;
+        }
+        lastUserScrollY = currentY;
+    }
+    window.addEventListener('scroll', onUserScroll);
     function easeInOutQuad(t) {
         return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
     }
     function animate(now) {
+        if (userInterrupted) {
+            window.removeEventListener('scroll', onUserScroll);
+            return;
+        }
         const elapsed = now - startTime;
         const progress = Math.min(elapsed / duration, 1);
         const eased = easeInOutQuad(progress);
@@ -33,7 +46,7 @@ function smoothScrollTo(targetY, duration = 500) {
         if (progress < 1) {
             requestAnimationFrame(animate);
         } else {
-            isAutoScrolling = false;
+            window.removeEventListener('scroll', onUserScroll);
         }
     }
     requestAnimationFrame(animate);
@@ -62,13 +75,19 @@ window.addEventListener('scroll', function () {
     if (scrollTimer) clearTimeout(scrollTimer);
     scrollTimer = setTimeout(() => {
         // 判断是否静止
-        if (Math.abs(window.scrollY - lastScrollY) <= 2 && !isAutoScrolling) {
+        if (Math.abs(window.scrollY - lastScrollY) <= 1 && window.scrollY !== window.innerHeight) {
             const headerHeight = header.offsetHeight;
             if (window.scrollY <= headerHeight / 2) {
-                smoothScrollTo(0, 500);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    })
             }
             else if (window.scrollY < headerHeight) {
-                smoothScrollTo(headerHeight, 500);
+                    window.scrollTo({
+                        top: headerHeight,
+                        behavior: 'smooth'
+                    })
             }
             // 超过 headerHeight 不自动滚动
         }
@@ -79,8 +98,8 @@ const interval = setInterval(() => {
     const main = document.querySelector('main');
     if (main) {
         const headerHeight = header.offsetHeight;
-        main.style.marginTop = `${headerHeight + 20}px`;
+        main.style.marginTop = `${headerHeight}px`;
         const footerHeight = footer.offsetHeight;
-        main.style.marginBottom = `${footerHeight + 20}px`;
+        main.style.marginBottom = `${footerHeight}px`;
     }
 });

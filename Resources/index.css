@@ -50,11 +50,38 @@ main {
     margin-bottom: 20px;
 }
 
-.content {
-    max-width: 1220px;
-    margin: 0 auto;
-    padding: 20px;
+/*圆角矩形框*/
+.container {
+    background-color: #f2f9ff;
+    border-radius: 10px;
     text-align: center;
+    box-shadow: 0 5px 15px #77bdff57;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.content {
+    background-color: #ebf6ff;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 5px 15px #77bdff57;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 #main-footer {
