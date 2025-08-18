@@ -54,7 +54,7 @@ avatar.addEventListener('click', function () {
             window.open("./About/About.html");
         }
         else {
-            window.open("./index.html");
+            window.open("../index.html");
         }
     }
 })
