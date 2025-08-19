@@ -155,8 +155,6 @@ html {
 
 #busuanzi_container_site_pv {
     font-size: 1.2em;
-    margin-top: 16px;
-    margin-bottom: 16px;
     color: #737a8f;
     padding: 45px;
 }
@@ -164,8 +162,6 @@ html {
 #busuanzi_value_site_pv
 {
     font-size: 1.2em;
-    margin-top: 16px;
-    margin-bottom: 16px;
     color: #0d63b9;
 }
 
