@@ -166,11 +166,6 @@ html {
     color: #8fc7ff;
 }
 
-.main {
-    margin-bottom: 100px;
-}
-
-
 #busuanzi_container_site_pv,
 #busuanzi_container_site_uv {
     font-size: 1.2em;
@@ -184,3 +179,9 @@ html {
     font-size: 1.2em;
     color: #0d63b9;
 }
+
+.main {
+    margin-bottom: 100px;
+}
+
+
