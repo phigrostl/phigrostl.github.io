@@ -9,7 +9,8 @@ const initialTitleSize = 2.5;
 const minAvatarSize = 50;
 const minTitleSize = 0;
 
-const maxScrollDistance = Math.min(document.body.scrollHeight, 100);
+
+const maxScrollDistance = 100;
 
 let lastScrollTime = Date.now();
 let lastScrollY = window.scrollY;
@@ -38,7 +39,7 @@ window.addEventListener('scroll', function () {
 const interval = setInterval(() => {
     if (main) {
         const footerHeight = footer.offsetHeight;
-        main.style.paddingBottom = `${footerHeight}px`;
+        main.style.paddingBottom = `${footerHeight + 60}px`;
     }
 });
 

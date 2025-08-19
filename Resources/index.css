@@ -1,7 +1,7 @@
+
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 html {
@@ -55,7 +55,6 @@ html {
     display: flex;
     flex-direction: column;
     width: 80%;
-    min-height: 720px;
     margin-top: 10px;
     margin-bottom: 10px;
     margin-left: auto;
@@ -81,39 +80,42 @@ html {
 
 .content p {
     font-size: 1.0em;
-    margin-bottom: 0px;
     font-weight: 400;
     color: #151617;
-    text-align: left;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .content h1 {
     font-size: 2em;
-    margin-bottom: 0px;
     font-weight: 500;
     color: #151617;
     text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .content h2 {
     font-size: 1.5em;
-    margin-bottom: 0px;
     font-weight: 600;
     color: #151617;
     text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .content h3 {
     font-size: 1.2em;
-    margin-bottom: 0px;
     font-weight: 600;
     color: #151617;
     text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .content a {
     font-size: 1.0em;
-    margin-bottom: 0px;
     font-weight: 400;
     color: #151617;
     text-align: center;
@@ -148,4 +150,16 @@ html {
     position: fixed;
     bottom: 0;
     width: 100%;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 32px;
+    width: 90%;
+    margin: 40px auto 40px auto;
+    align-items: stretch;
+    height: 80vh;
+    min-height: 600px;
 }

@@ -1,0 +1,210 @@
+
+.grid-item {
+    background: #f2f9ff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px #77bdff57;
+    margin: 24px 18px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.profile-item {
+    text-align: center;
+    justify-content: center;
+}
+.skills-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    list-style: none;
+    justify-items: center;
+    margin: 16px 0 0 0;
+    padding: 0;
+}
+.projects-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin: 16px 0;
+    justify-items: stretch;
+    align-items: center;
+}
+.saying-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    list-style: none;
+    margin: 16px 0 0 0;
+    padding: 0;
+    justify-items: center;
+}
+
+@media (max-width: 800px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: none;
+    }
+    .projects-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .skills-list {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .profile-item,
+    .skills-section,
+    .projects-section,
+    .saying-section {
+        grid-column: auto;
+        grid-row: auto;
+    }
+    .skills-list {
+        grid-template-columns: 1fr;
+    }
+    .projects-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .saying-list {
+        grid-template-columns: 1fr;
+    }
+}
+.grid-4 {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    justify-items: center;
+    align-items: stretch;
+}
+@media (max-width: 1080px) {
+    .projects-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+@media (max-width: 600px) {
+    .grid-4 {
+        grid-template-columns: 1fr;
+    }
+    .projects-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+.profile-section {
+    text-align: center;
+}
+.profile-section h1,
+.skills-section h2,
+.projects-section h2,
+.saying-section h2 {
+    text-align: start;
+    margin-top: 0;
+    margin-bottom: 18px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 0;
+}
+
+.profile-name {
+    margin-top: 16px;
+    margin-bottom: 16px;
+    font-size: 2em;
+    font-weight: 600;
+    color: #151617;
+}
+.profile-desc {
+    font-size: 1.2em;
+    color: #3a77b4;
+    margin-top: 8px;
+    font-weight: 400;
+}
+
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    list-style: none;
+    justify-content: center;
+    margin: 16px 0 24px 0;
+    padding: 0;
+}
+.skills-list li {
+    background: #e3f1ff;
+    border-radius: 20px;
+    padding: 6px 18px;
+    color: #26629e;
+    font-weight: 500;
+    font-size: 1em;
+}
+.card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px #77bdff57;
+    padding: 18px 24px;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80%;
+}
+.card h3 {
+    font-size: 1.2em;
+    margin-bottom: 8px;
+    color: #26629e;
+}
+.card p {
+    font-size: 1em;
+    margin-bottom: 8px;
+    color: #151617;
+}
+.card a {
+    color: #3a77b4;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1em;
+}
+.card a:hover {
+    text-decoration: underline;
+}
+
+.saying-list {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    list-style: none;
+    margin: 16px 0;
+    padding: 0;
+}
+.tags {
+    display: flex;
+    gap: 12px;
+    list-style: none;
+    justify-content: center;
+    margin: 16px 0 24px 0;
+    padding: 0;
+    background: #e3f1ff;
+    border-radius: 20px;
+    padding: 6px 18px;
+    color: #26629e;
+    font-weight: 500;
+    font-size: 1em;
+}
+
+#busuanzi_container_site_pv{
+    font-size: 1.2em;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    color: #737a8f;
+    padding: 45px;
+}
+
+#busuanzi_value_site_pv{
+    font-size: 1.2em;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    color: #0d63b9;
+}
