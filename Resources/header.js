@@ -1,11 +1,13 @@
+
+
 const header = document.getElementById('main-header');
 const footer = document.getElementById('main-footer');
 const avatar = document.querySelector('.avatar');
 const title = document.querySelector('.title');
 const statPC = document.getElementById('busuanzi_container_page_pv');
-const statUC = document.getElementById('busuanzi_container_site_uv');
+const statUC = document.getElementById('busuanzi_container_page_uv');
 const statPV = document.getElementById('busuanzi_page_pv');
-const statUV = document.getElementById('busuanzi_site_uv');
+const statUV = document.getElementById('busuanzi_page_uv');
 const main = document.querySelector('main');
 const initialAvatarSize = 100;
 const initialTitleSize = 2.5;
