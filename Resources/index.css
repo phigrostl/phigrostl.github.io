@@ -154,20 +154,6 @@ html {
 }
 
 
-#busuanzi_container_site_pv 
-#busuanzi_container_site_uv {
-    font-size: 1.2em;
-    color: #737a8f;
-    padding: 45px;
-}
-
-#busuanzi_site_pv
-#busuanzi_site_uv
-{
-    font-size: 1.2em;
-    color: #0d63b9;
-}
-
 #busuanzi_container_page_uv,
 #busuanzi_container_page_pv {
     font-size: 1.2rem;
@@ -182,4 +168,19 @@ html {
 
 .main {
     margin-bottom: 100px;
+}
+
+
+#busuanzi_container_site_pv,
+#busuanzi_container_site_uv {
+    font-size: 1.2em;
+    color: #737a8f;
+    padding: 8px 0;
+    display: inline-block;
+}
+
+#busuanzi_site_pv,
+#busuanzi_site_uv {
+    font-size: 1.2em;
+    color: #0d63b9;
 }
