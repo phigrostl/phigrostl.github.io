@@ -77,7 +77,12 @@ avatar.addEventListener('click', function () {
             window.open("./About/About.html");
         }
         else {
-            window.open("../index.html");
+            var depth = pathname.split('/').length - 1;
+            var newPath = './';
+            for (var i = 0; i < depth; i++) {
+                newPath += '../';
+            }
+            window.open(newPath + 'index.html');
         }
     }
 })
